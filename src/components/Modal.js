@@ -6,7 +6,8 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
         name: user ? user.name : '',
         mobile: user ? user.mobile : '',
         bloodGroup: user ? user.bloodGroup : '',
-        uniqueId: user ? user.uniqueId : ''
+        uniqueId: user ? user.uniqueId : '',
+        area: user ? user.area : ''
     });
         
 
@@ -25,7 +26,8 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                 name: user ? user.name : '',
                 mobile: user ? user.mobile : '',
                 bloodGroup: user ? user.bloodGroup : '',
-                uniqueId: user ? user.uniqueId : ''
+                uniqueId: user ? user.uniqueId : '',
+                area: user ? user.area : ''
             });
         }
     }, [isOpen, user]);
@@ -73,6 +75,16 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             type="text"
                             name="uniqueId"
                             value={formData.uniqueId}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Area</label>
+                        <input
+                            type="text"
+                            name="area"
+                            value={formData.area}
                             onChange={handleChange}
                             required
                         />

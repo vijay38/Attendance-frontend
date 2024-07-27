@@ -5,10 +5,7 @@ import { saveAs } from 'file-saver';
 import Modal from '../components/Modal';
 import '../styles/UserDetailsPage.css';
 
-// Sample image URL
-// const defaultImageUrl = 'https://i.pinimg.com/originals/ed/18/91/ed189191dc22169f0e6786a85f068616.jpg';
-
-const images = [ require("../assets/1.jpg"), require("../assets/2.jpg"), require("../assets/3.jpg"), require("../assets/4.jpg"), require("../assets/5.jpg"), require("../assets/6.jpg")]
+const images = [ require("../assets/1.jpg"), require("../assets/2.jpg"), require("../assets/3.jpg"), require("../assets/4.jpg"), require("../assets/5.jpg"), require("../assets/6.jpg"),require("../assets/7.jpg")]
 
 function UserDetailsPage() {
     const [users, setUsers] = useState([]);
@@ -34,7 +31,6 @@ function UserDetailsPage() {
         fetchData();
     }, []);
 
-
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
@@ -58,7 +54,12 @@ function UserDetailsPage() {
 
     const handleDeleteUsers = async () => {
         try {
-            await axios.post('http://localhost:5000/api/users/delete', { ids: selectedUsers });
+            const token = localStorage.getItem('token');
+            await axios.post('http://localhost:5000/api/users/delete', { ids: selectedUsers }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setUsers(users.filter(user => !selectedUsers.includes(user._id)));
             setSelectedUsers([]);
         } catch (error) {
@@ -68,11 +69,20 @@ function UserDetailsPage() {
 
     const handleFormSubmit = async (formData) => {
         try {
+            const token = localStorage.getItem('token');
             if (editingUser) {
-                const response = await axios.put(`http://localhost:5000/api/users/${editingUser._id}`, formData);
+                const response = await axios.put(`http://localhost:5000/api/users/${editingUser._id}`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setUsers(users.map(user => (user._id === editingUser._id ? response.data : user)));
             } else {
-                const response = await axios.post('http://localhost:5000/api/users', formData);
+                const response = await axios.post('http://localhost:5000/api/users', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setUsers([...users, response.data]);
             }
             setIsModalOpen(false);
@@ -92,8 +102,17 @@ function UserDetailsPage() {
                 header: true,
                 complete: async (results) => {
                     try {
-                        await axios.post('http://localhost:5000/api/users', results.data);
-                        const response = await axios.get('http://localhost:5000/api/users');
+                        const token = localStorage.getItem('token');
+                        await axios.post('http://localhost:5000/api/users', results.data, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        });
+                        const response = await axios.get('http://localhost:5000/api/users', {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        });
                         setUsers(response.data);
                     } catch (error) {
                         console.error('Error importing data:', error);
@@ -105,6 +124,7 @@ function UserDetailsPage() {
             });
         }
     };
+
     const handleExportData = () => {
         const csvData = users.map(user => ({
             name: user.name,
@@ -173,9 +193,7 @@ function UserDetailsPage() {
                                 />
                             </td>
                             <td>
-                                {/* <img src={user.imageUrl || defaultImageUrl} alt="User" className="user-image" /> */}
-                                <img alt="User" className="user-image" src={images[ind % 6 ]}></img>
-                                {/* <img alt="User" className="user-image" src={' https://firebasestorage.googleapis.com/v0/b/attendance-management-da7a6.appspot.com/o/userImages%2F'+user.uniqueId+'.jpg?alt=media'}></img> */}
+                                <img alt="User" className="user-image" src={images[ind % 7 ]}></img>
                             </td>
                             <td>{user.uniqueId}</td>
                             <td>{user.name}</td>
