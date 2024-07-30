@@ -6,12 +6,8 @@ import LoginPage from './pages/LoginPage';
 import UserDetailsPage from './pages/UserDetailsPage';
 import AttendancePage from './pages/AttendancePage';
 import { AuthProvider, useAuth } from './AuthContext';
+import PrivateRoute from './PrivateRoute';
 import './index.css';
-
-function PrivateRoute({ children }) {
-    const { isLoggedIn } = useAuth();
-    return isLoggedIn ? children : <Navigate to="/login" />;
-}
 
 function Root() {
     return (

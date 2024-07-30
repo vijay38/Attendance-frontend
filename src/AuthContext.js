@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState,useEffect } from 'react';
-// import jwt_decode from 'jsonwebtoken';
+import React, { createContext, useContext, useState } from 'react';
+
 
 const AuthContext = createContext();
+
 
 export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,6 +14,7 @@ export function AuthProvider({ children }) {
     const logout = () => {
         setIsLoggedIn(false);
         localStorage.removeItem('token');
+        
     };
 
     return (

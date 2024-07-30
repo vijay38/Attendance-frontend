@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/LoginPage.css';
 import { useAuth } from '../AuthContext';
-
+const BASE_URL = 'http://localhost:5000';
 function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ function LoginPage() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/login', { username, password });
+            const response = await axios.post(`${BASE_URL}/api/login`, { username, password });
             localStorage.setItem('token', response.data.token); // Store token in localStorage
             login();
             navigate('/userDetails'); // Redirect to UserDetailsPage upon successful login

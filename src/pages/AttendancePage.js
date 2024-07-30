@@ -5,7 +5,7 @@ import axios from 'axios';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
 import '../styles/AttendancePage.css';
-
+const BASE_URL = 'http://localhost:5000';
 // Sample image URL
 // const defaultImageUrl = 'https://i.pinimg.com/originals/ed/18/91/ed189191dc22169f0e6786a85f068616.jpg';
 
@@ -21,7 +21,7 @@ function AttendancePage() {
         async function fetchData() {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:5000/api/absentees?date=${formattedDate}`, {
+                const response = await axios.get(`${BASE_URL}/api/absentees?date=${formattedDate}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
