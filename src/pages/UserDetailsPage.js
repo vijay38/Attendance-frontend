@@ -5,8 +5,7 @@ import { saveAs } from 'file-saver';
 import Modal from '../components/Modal';
 import '../styles/UserDetailsPage.css';
 const BASE_URL = 'http://localhost:5000';
-const images = [ require("../assets/1.jpg"), require("../assets/2.jpg"), require("../assets/3.jpg"), require("../assets/4.jpg"), require("../assets/5.jpg"), require("../assets/6.jpg"),require("../assets/7.jpg")]
-
+const token = localStorage.getItem('token');
 function UserDetailsPage() {
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState('');
@@ -17,7 +16,6 @@ function UserDetailsPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const token = localStorage.getItem('token');
                 const response = await axios.get(`${BASE_URL}/api/users`, {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -54,7 +52,6 @@ function UserDetailsPage() {
 
     const handleDeleteUsers = async () => {
         try {
-            const token = localStorage.getItem('token');
             await axios.post(`${BASE_URL}/api/users/delete`, { ids: selectedUsers }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -69,7 +66,6 @@ function UserDetailsPage() {
 
     const handleFormSubmit = async (formData) => {
         try {
-            const token = localStorage.getItem('token');
             if (editingUser) {
                 const response = await axios.put(`${BASE_URL}/api/users/${editingUser._id}`, formData, {
                     headers: {
@@ -193,7 +189,7 @@ function UserDetailsPage() {
                                 />
                             </td>
                             <td>
-                                <img alt="User" className="user-image" src={images[ind % 7 ]}></img>
+                                <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${user.uniqueId}`} loading="lazy"></img>
                             </td>
                             <td>{user.uniqueId}</td>
                             <td>{user.name}</td>

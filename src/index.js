@@ -5,7 +5,7 @@ import App from './App';
 import LoginPage from './pages/LoginPage';
 import UserDetailsPage from './pages/UserDetailsPage';
 import AttendancePage from './pages/AttendancePage';
-import { AuthProvider, useAuth } from './AuthContext';
+import { AuthProvider } from './AuthContext';
 import PrivateRoute from './PrivateRoute';
 import './index.css';
 

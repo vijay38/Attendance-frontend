@@ -9,7 +9,6 @@ const BASE_URL = 'http://localhost:5000';
 // Sample image URL
 // const defaultImageUrl = 'https://i.pinimg.com/originals/ed/18/91/ed189191dc22169f0e6786a85f068616.jpg';
 
-const images = [require("../assets/1.jpg"),require("../assets/2.jpg"),require("../assets/3.jpg"),require("../assets/4.jpg"),require("../assets/5.jpg"),require("../assets/6.jpg")]
 function AttendancePage() {
     const [attendees, setAttendees] = useState([]);
     const [selectedDate, setSelectedDate] = useState();
@@ -101,7 +100,7 @@ function AttendancePage() {
                         <tr key={attendee._id}>
                             <td>
                                 {/* <img src={attendee.imageUrl || defaultImageUrl} alt="Attendee" className="attendee-image" /> */}
-                                <img alt="User" className="user-image" src={images[ind % 6 ]}></img>
+                                <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${attendee.uniqueId}`}></img>
                                 {/* <img alt="User" className="user-image" src={' https://firebasestorage.googleapis.com/v0/b/attendance-management-da7a6.appspot.com/o/userImages%2F'+attendee.uniqueId+'.jpg?alt=media'}></img> */}
                                                        
                             </td>
