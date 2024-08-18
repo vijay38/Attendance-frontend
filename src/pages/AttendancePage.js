@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
+import useDebounce from '../utils/debounce';
 import '../styles/AttendancePage.css';
+import Pagination from '../components/Pagination';
 const BASE_URL = 'http://localhost:5000';
 // Sample image URL
 // const defaultImageUrl = 'https://i.pinimg.com/originals/ed/18/91/ed189191dc22169f0e6786a85f068616.jpg';
@@ -13,40 +15,51 @@ function AttendancePage() {
     const [attendees, setAttendees] = useState([]);
     const [selectedDate, setSelectedDate] = useState();
     const [searchQuery, setSearchQuery] = useState('');
-    const [formattedDate,setFormattedDate] = useState(null);
+    const [formattedDate, setFormattedDate] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
 
+    const debouncedSearchQuery = useDebounce(searchQuery, 500);
     useEffect(() => {
         if (!selectedDate) return;
         async function fetchData() {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`${BASE_URL}/api/absentees?date=${formattedDate}`, {
+                const response = await axios.get(`${BASE_URL}/api/absentees`, {
+                    params: {
+                        date: formattedDate,
+                        page: currentPage,
+                        limit: 10,
+                        searchQuery: debouncedSearchQuery  
+                    },
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setAttendees(response.data);
+                setAttendees(response.data.data);
+                setTotalPages(response.data.totalPages);
             } catch (error) {
                 console.error('Error fetching absentees:', error);
             }
         }
         fetchData();
-    }, [formattedDate,selectedDate]);
-    
+    }, [formattedDate, selectedDate, currentPage, debouncedSearchQuery]);
 
     const handleDateChange = (e) => {
         const date = new Date(e.target.value);
-    const formattedDate = date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
-    setFormattedDate(formattedDate.replaceAll('/','-'));
-    setSelectedDate(e.target.value)
+        const formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+        setFormattedDate(formattedDate.replaceAll('/', '-'));
+        setSelectedDate(e.target.value);
+        setCurrentPage(1);  // Reset to first page when date changes
     };
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
+        setCurrentPage(1);  // Reset to first page when search query changes
     };
 
     const handleExportData = () => {
@@ -60,12 +73,6 @@ function AttendancePage() {
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         saveAs(blob, 'absentees.csv');
     };
-
-    const filteredAttendees = attendees.filter(
-        (attendee) =>
-            attendee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            attendee.mobile.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
     return (
         <div className="attendance-container">
@@ -96,13 +103,10 @@ function AttendancePage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredAttendees.map((attendee,ind) => (
+                    {attendees.map((attendee, ind) => (
                         <tr key={attendee._id}>
                             <td>
-                                {/* <img src={attendee.imageUrl || defaultImageUrl} alt="Attendee" className="attendee-image" /> */}
                                 <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${attendee.uniqueId}`}></img>
-                                {/* <img alt="User" className="user-image" src={' https://firebasestorage.googleapis.com/v0/b/attendance-management-da7a6.appspot.com/o/userImages%2F'+attendee.uniqueId+'.jpg?alt=media'}></img> */}
-                                                       
                             </td>
                             <td>{attendee.uniqueId}</td>
                             <td>{attendee.name}</td>
@@ -112,8 +116,14 @@ function AttendancePage() {
                     ))}
                 </tbody>
             </table>
+            <Pagination 
+                totalPages={totalPages} 
+                currentPage={currentPage} 
+                onPageChange={setCurrentPage} 
+            />
         </div>
     );
 }
+
 
 export default AttendancePage;
