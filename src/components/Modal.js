@@ -7,7 +7,9 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
         mobile: user ? user.mobile : '',
         bloodGroup: user ? user.bloodGroup : '',
         uniqueId: user ? user.uniqueId : '',
-        area: user ? user.area : ''
+        area: user ? user.area : '',
+        email:user ?  user.email : '',
+        city:user ?  user.city : ''
     });
         
 
@@ -27,7 +29,9 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                 mobile: user ? user.mobile : '',
                 bloodGroup: user ? user.bloodGroup : '',
                 uniqueId: user ? user.uniqueId : '',
-                area: user ? user.area : ''
+                area: user ? user.area : '',
+                email:user ?  user.email : '',
+                city:user ?  user.city : ''
             });
         }
     }, [isOpen, user]);
@@ -60,6 +64,15 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                         />
                     </div>
                     <div>
+                        <label>Email</label>
+                        <input
+                            type="text"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
                         <label>Blood Group</label>
                         <input
                             type="text"
@@ -85,6 +98,16 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             type="text"
                             name="area"
                             value={formData.area}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>City</label>
+                        <input
+                            type="text"
+                            name="city"
+                            value={formData.city}
                             onChange={handleChange}
                             required
                         />

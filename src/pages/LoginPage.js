@@ -8,7 +8,7 @@ function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth();
+    const { login,setIsSuperAdmin } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -23,6 +23,7 @@ function LoginPage() {
         try {
             const response = await axios.post(`${BASE_URL}/api/login`, { username, password });
             localStorage.setItem('token', response.data.token); // Store token in localStorage
+            setIsSuperAdmin(response.data.superAdmin);
             login();
             navigate('/userDetails'); // Redirect to UserDetailsPage upon successful login
         } catch (error) {
