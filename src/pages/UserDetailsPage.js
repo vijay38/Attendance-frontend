@@ -10,6 +10,7 @@ import { useAuth } from '../AuthContext';
 import '../styles/UserDetailsPage.css';
 const BASE_URL = 'http://localhost:5000';
 const token = localStorage.getItem('token');
+
 function UserDetailsPage() {
     const [users, setUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -21,6 +22,7 @@ function UserDetailsPage() {
     const [isAdminDialogOpen,setIsAdminDialogOpen] = useState(false);
     const {isSuperAdmin} = useAuth();
     const debouncedSearchQuery = useDebounce(searchQuery, 500);
+    const userId = localStorage.getItem('userId');
     useEffect(() => {
         async function fetchData() {
             try {
@@ -74,7 +76,8 @@ function UserDetailsPage() {
         try {
             await axios.post(`${BASE_URL}/api/users/delete`, { ids: selectedUsers }, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    userId:userId
                 }
             });
             setUsers(users.filter(user => !selectedUsers.includes(user._id)));
@@ -89,14 +92,16 @@ function UserDetailsPage() {
             if (editingUser) {
                 const response = await axios.put(`${BASE_URL}/api/users/${editingUser._id}`, formData, {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
+                        userId:userId
                     }
                 });
                 setUsers(users.map(user => (user._id === editingUser._id ? response.data : user)));
             } else {
                 const response = await axios.post(`${BASE_URL}/api/users`, formData, {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
+                        userId:userId
                     }
                 });
                 setUsers([...users, response.data]);
@@ -110,10 +115,12 @@ function UserDetailsPage() {
     };
 
     const handleAdminUserFormSbmit = async (formData) =>{
+        const userId = localStorage.getItem('userId');
         try{
             await axios.post(`${BASE_URL}/api/createAdminUser`, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    userId:userId
                 }
             });
             setIsAdminDialogOpen(false);
@@ -137,9 +144,10 @@ function UserDetailsPage() {
                 complete: async (results) => {
                     try {
                         const token = localStorage.getItem('token');
-                        await axios.post(`${BASE_URL}/api/users`, results.data, {
+                        await axios.post(`${BASE_URL}/api/users`, {userId:userId,users:results.data}, {
                             headers: {
-                                Authorization: `Bearer ${token}`
+                                Authorization: `Bearer ${token}`,
+                                userId:userId
                             }
                         });
                         const response = await axios.get(`${BASE_URL}/api/users`, {

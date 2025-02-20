@@ -24,6 +24,7 @@ function LoginPage() {
             const response = await axios.post(`${BASE_URL}/api/login`, { username, password });
             localStorage.setItem('token', response.data.token); // Store token in localStorage
             setIsSuperAdmin(response.data.superAdmin);
+            localStorage.setItem('userId',response.data.userId);
             login();
             navigate('/userDetails'); // Redirect to UserDetailsPage upon successful login
         } catch (error) {
