@@ -1,0 +1,77 @@
+.family-table {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.family-table .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.family-table .loader {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: gray;
+}
+
+.family-table .error {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+.family-table .table-container {
+    overflow-x: auto;
+}
+
+.family-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.family-table th, 
+.family-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.family-table th {
+    background: #f4f4f4;
+    font-weight: bold;
+}
+
+.family-table tr:hover {
+    background: #f9f9f9;
+}
+
+.family-table .no-data {
+    text-align: center;
+    color: gray;
+    font-style: italic;
+}
+
+.family-table .members-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.family-table .members-list li {
+    padding: 4px 0;
+    font-size: 14px;
+}
+
+.family-table .no-members {
+    color: gray;
+    font-style: italic;
+}

@@ -8,6 +8,7 @@ import AttendancePage from './pages/AttendancePage';
 import { AuthProvider } from './AuthContext';
 import PrivateRoute from './PrivateRoute';
 import './index.css';
+import FamilyPage from './pages/FamilyPage';
 
 function Root() {
     return (
@@ -31,6 +32,15 @@ function Root() {
                                 <PrivateRoute>
                                     <App />
                                     <AttendancePage />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="family"
+                            element={
+                                <PrivateRoute>
+                                    <App />
+                                    <FamilyPage/>
                                 </PrivateRoute>
                             }
                         />

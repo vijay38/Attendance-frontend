@@ -135,7 +135,9 @@ function UserDetailsPage() {
     const handleImportData = () => {
         document.getElementById('fileInput').click();
     };
-
+    const getValidData = (data) => {
+        return data.filter((user) => user.name && user.mobile && user.bloodGroup && user.city && user.area);
+    }
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -144,7 +146,7 @@ function UserDetailsPage() {
                 complete: async (results) => {
                     try {
                         const token = localStorage.getItem('token');
-                        await axios.post(`${BASE_URL}/api/users`, {userId:userId,users:results.data}, {
+                        await axios.post(`${BASE_URL}/api/users`, {userId:userId,users: getValidData(results.data)}, {
                             headers: {
                                 Authorization: `Bearer ${token}`,
                                 userId:userId
@@ -154,8 +156,8 @@ function UserDetailsPage() {
                             headers: {
                                 Authorization: `Bearer ${token}`
                             }
-                        });
-                        setUsers(response.data);
+                        }); 
+                        setUsers(response.data.data);
                     } catch (error) {
                         console.error('Error importing data:', error);
                     }
@@ -172,8 +174,11 @@ function UserDetailsPage() {
             name: user.name,
             uniqueId: user.uniqueId,
             mobile: user.mobile,
+            email: user.email,
             bloodGroup: user.bloodGroup,
-            area: user.area
+            city: user.city,
+            area: user.area,
+            HOFMobile: user.HOFMobile
         }));
         const csv = Papa.unparse(csvData);
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });

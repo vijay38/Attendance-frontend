@@ -9,7 +9,8 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
         uniqueId: user ? user.uniqueId : '',
         area: user ? user.area : '',
         email:user ?  user.email : '',
-        city:user ?  user.city : ''
+        city:user ?  user.city : '',
+        HOFMobile: user ? user.HOFMobile : ''
     });
         
 
@@ -108,6 +109,16 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             type="text"
                             name="city"
                             value={formData.city}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Head of the family No.</label>
+                        <input
+                            type="text"
+                            name="HOFMobile"
+                            value={formData.HOFMobile}
                             onChange={handleChange}
                             required
                         />

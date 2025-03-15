@@ -13,6 +13,7 @@ function App() {
                 <div className='nav-links'>
                 <Link to="/userDetails" className="nav-link">User Details</Link>
                 <Link to="/attendance" className="nav-link">Attendance</Link>
+                <Link to="/family" className="nav-link">Family</Link>
                 </div>
                 <button className="logout-button" onClick={() =>{logout();navigate('/login');}}>Logout</button>
             </nav>

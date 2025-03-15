@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { useAuth } from './AuthContext';
 // Define your API base URL
 const BASE_URL = 'http://localhost:5000';
 
 function PrivateRoute({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(null); // null to handle loading state
     const [loading, setLoading] = useState(true); // Handle loading state
-
+    const { setIsSuperAdmin } = useAuth();
     useEffect(() => {
         const verifyToken = async () => {
             const token = localStorage.getItem('token');
@@ -17,9 +17,9 @@ function PrivateRoute({ children }) {
                 try {
                     // Send the token to the backend for verification
                     const response = await axios.post(`${BASE_URL}/api/verifyToken`, { token });
-
                     if (response.data.valid) {
                         setIsAuthenticated(true); // Token is valid
+                        setIsSuperAdmin(response.data.superAdmin)
                     } else {
                         setIsAuthenticated(false); // Token is not valid
                     }
