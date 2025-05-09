@@ -11,9 +11,9 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
         email:user ?  user.email : '',
         city:user ?  user.city : '',
         HOFMobile: user ? user.HOFMobile : '',
-        gender: user ? user.gender : '',
-        dob: user ? user.dob : '',
-        occupation: user ? user.occupation : ''
+        gender: user && user.gender ? user.gender : '',
+        dob: user && user.dob ? user.dob : '',
+        occupation: user && user.occupation ? user.occupation : ''
     });
         
 
@@ -28,6 +28,7 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
 
     useEffect(() => {
         if (isOpen) {
+            console.log(user);
             setFormData({
                 name: user ? user.name : '',
                 mobile: user ? user.mobile : '',
@@ -35,10 +36,11 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                 uniqueId: user ? user.uniqueId : '',
                 area: user ? user.area : '',
                 email:user ?  user.email : '',
-                city:user ?  user.city : '',
-                gender: user.gender || '',
-                dob: user.dob ? user.dob.substring(0, 10) : '',
-                occupation: user.occupation || ''
+                city: user ?  user.city : '',
+                gender: user ?  user.gender : '',
+                dob: user && user.dob ? user.dob.substring(0, 10) : '',
+                occupation: user ? user.occupation : '',
+                HOFMobile: user ? user.HOFMobile : '',
             });
         }
     }, [isOpen, user]);

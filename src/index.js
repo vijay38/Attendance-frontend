@@ -5,6 +5,7 @@ import App from './App';
 import LoginPage from './pages/LoginPage';
 import UserDetailsPage from './pages/UserDetailsPage';
 import AttendancePage from './pages/AttendancePage';
+import UserProfile from './pages/UserProfile';
 import { AuthProvider } from './AuthContext';
 import PrivateRoute from './PrivateRoute';
 import './index.css';
@@ -43,6 +44,15 @@ function Root() {
                                     <FamilyPage/>
                                 </PrivateRoute>
                             }
+                        />
+                        <Route
+                        path="user/:userId"
+                        element={
+                            <PrivateRoute>
+                            <App />
+                            <UserProfile />
+                            </PrivateRoute>
+                        }
                         />
                         <Route path="/" element={<Navigate to="/login" />} />
                     </Route>

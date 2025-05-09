@@ -7,6 +7,8 @@ import { saveAs } from 'file-saver';
 import Pagination from '../components/Pagination';
 import AdminUserForm from '../components/AdminUserForms';
 import { useAuth } from '../AuthContext';
+import UsersTable from "../components/UsersTable";
+import SimpleUsersTable from '../components/SimpleUsersTable';
 import '../styles/UserDetailsPage.css';
 const BASE_URL = 'http://localhost:5000';
 const token = localStorage.getItem('token');
@@ -30,7 +32,7 @@ function UserDetailsPage() {
                 const response = await axios.get(`${BASE_URL}/api/users`, {
                     params: {
                         page: currentPage,
-                        limit: 5,
+                        limit: 7,
                         searchQuery: debouncedSearchQuery
                     },
                     headers: {
@@ -56,7 +58,9 @@ function UserDetailsPage() {
             prev.includes(id) ? prev.filter((uid) => uid !== id) : [...prev, id]
         );
     };
-
+ const handleSelectionChange = (selectedIds) => {
+    setSelectedUsers(selectedIds)
+  }
     const handleNewUser = () => {
         setEditingUser(null);
         setIsModalOpen(true);
@@ -213,15 +217,15 @@ function UserDetailsPage() {
                 
             </div>
             <h2>User Details</h2>
-            <div className="search-bar">
+            {/* <div className="search-bar">
                 <input
                     type="text"
                     placeholder="Search by name or mobile"
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
-            </div>
-            <table className="table-container">
+            </div> */}
+            {/* <table className="table-container">
                 <thead>
                     <tr>
                         <th>Select</th>
@@ -268,8 +272,15 @@ function UserDetailsPage() {
                         </tr>
                     ))}
                 </tbody>
-            </table>
+            </table> */}
+            <UsersTable users={users} selectedUsers={selectedUsers} onSelectionChange={handleSelectionChange} />
 
+          
+          {/* <SimpleUsersTable
+            users={users}
+            selectedUsers={selectedUsers}
+            onSelectionChange={handleSelectionChange}
+          /> */}
             <Pagination 
                 totalPages={totalPages} 
                 currentPage={currentPage} 
