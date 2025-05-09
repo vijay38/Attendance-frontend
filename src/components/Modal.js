@@ -10,7 +10,10 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
         area: user ? user.area : '',
         email:user ?  user.email : '',
         city:user ?  user.city : '',
-        HOFMobile: user ? user.HOFMobile : ''
+        HOFMobile: user ? user.HOFMobile : '',
+        gender: user ? user.gender : '',
+        dob: user ? user.dob : '',
+        occupation: user ? user.occupation : ''
     });
         
 
@@ -32,7 +35,10 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                 uniqueId: user ? user.uniqueId : '',
                 area: user ? user.area : '',
                 email:user ?  user.email : '',
-                city:user ?  user.city : ''
+                city:user ?  user.city : '',
+                gender: user.gender || '',
+                dob: user.dob ? user.dob.substring(0, 10) : '',
+                occupation: user.occupation || ''
             });
         }
     }, [isOpen, user]);
@@ -122,6 +128,23 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             onChange={handleChange}
                             required
                         />
+                    </div>
+                    <div>
+                        <label>Gender</label>
+                        <select name="gender" value={formData.gender} onChange={handleChange} required>
+                            <option value="">Select</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="O">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Date of Birth</label>
+                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Occupation</label>
+                        <input type="text" name="occupation" value={formData.occupation} onChange={handleChange} />
                     </div>
                     <button type="submit">Submit</button>
                 </form>

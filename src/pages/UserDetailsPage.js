@@ -178,7 +178,10 @@ function UserDetailsPage() {
             bloodGroup: user.bloodGroup,
             city: user.city,
             area: user.area,
-            HOFMobile: user.HOFMobile
+            HOFMobile: user.HOFMobile,
+            gender: user.gender,
+            dob: user.dob ? new Date(user.dob).toLocaleDateString() : '',  
+            occupation: user.occupation
         }));
         const csv = Papa.unparse(csvData);
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -230,12 +233,15 @@ function UserDetailsPage() {
                         <th>City</th>
                         <th>Blood Group</th>
                         <th>Area</th>
+                        <th>Gender</th>
+                        <th>DOB</th>
+                        <th>Occupation</th>
                     </tr>
                 </thead>
                 <tbody>
                     {users.map((user) => (
                         <tr key={user._id}>
-                             <td>
+                            <td>
                                 <input
                                     type="checkbox"
                                     checked={selectedUsers.includes(user._id)}
@@ -243,7 +249,11 @@ function UserDetailsPage() {
                                 />
                             </td>
                             <td>
-                                <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${user.uniqueId}`} />
+                                <img
+                                    alt="User"
+                                    className="user-image"
+                                    src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${user.uniqueId}`}
+                                />
                             </td>
                             <td>{user.uniqueId}</td>
                             <td>{user.name}</td>
@@ -252,10 +262,14 @@ function UserDetailsPage() {
                             <td>{user.city}</td>
                             <td>{user.bloodGroup}</td>
                             <td>{user.area}</td>
+                            <td>{user.gender}</td>
+                            <td>{user.dob ? new Date(user.dob).toLocaleDateString() : ''}</td>
+                            <td>{user.occupation}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+
             <Pagination 
                 totalPages={totalPages} 
                 currentPage={currentPage} 
