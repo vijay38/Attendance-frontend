@@ -25,7 +25,7 @@ function AttendancePage() {
         async function fetchData() {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`${BASE_URL}/api/absentees`, {
+                const response = await axios.get(`${BASE_URL}/api/dbattendance`, {
                     params: {
                         date: formattedDate,
                         page: currentPage,
@@ -52,7 +52,7 @@ function AttendancePage() {
             month: '2-digit',
             year: 'numeric'
         });
-        setFormattedDate(formattedDate.replaceAll('/', '-'));
+        setFormattedDate(formattedDate);
         setSelectedDate(e.target.value);
         setCurrentPage(1);  // Reset to first page when date changes
     };
@@ -104,13 +104,13 @@ function AttendancePage() {
                 </thead>
                 <tbody>
                     {attendees.map((attendee, ind) => (
-                        <tr key={attendee._id}>
+                        <tr key={attendee.EmployeeId}>
                             <td>
-                                <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${attendee.uniqueId}`}></img>
+                                <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${attendee.EmployeeCode}`}></img>
                             </td>
-                            <td>{attendee.uniqueId}</td>
-                            <td>{attendee.name}</td>
-                            <td>{attendee.mobile}</td>
+                            <td>{attendee.EmployeeCode}</td>
+                            <td>{attendee.EmployeeName}</td>
+                            <td>{attendee.mobile || ""}</td>
                             <td>{attendee.area}</td>
                         </tr>
                     ))}
