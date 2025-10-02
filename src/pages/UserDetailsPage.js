@@ -10,6 +10,7 @@ import { useAuth } from '../AuthContext';
 import UsersTable from "../components/UsersTable";
 import SimpleUsersTable from '../components/SimpleUsersTable';
 import '../styles/UserDetailsPage.css';
+import Loading from "../components/Loading";
 const BASE_URL = 'https://api.emmanuelministrieshyd.com';
 const token = localStorage.getItem('token');
 
@@ -25,28 +26,35 @@ function UserDetailsPage() {
     const {isSuperAdmin} = useAuth();
     const debouncedSearchQuery = useDebounce(searchQuery, 100);
     const userId = localStorage.getItem('userId');
+    const [pageSize, setPageSize] = useState(10);
+    const [loading, setIsLoading] = useState(false);
+
     useEffect(() => {
         async function fetchData() {
             try {
+                setIsLoading(true);
                 const token = localStorage.getItem('token');
                 const response = await axios.get(`${BASE_URL}/api/users`, {
                     params: {
                         page: currentPage,
-                        limit: 7,
+                        limit: pageSize,
                         searchQuery: debouncedSearchQuery
                     },
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
+                setIsLoading(false);
                 setUsers(response.data.data);
                 setTotalPages(response.data.totalPages);
+                
             } catch (error) {
+                setIsLoading(false);
                 console.error('Error fetching users:', error);
             }
         }
         fetchData();
-    }, [currentPage, debouncedSearchQuery]);
+    }, [currentPage, debouncedSearchQuery,pageSize]);
 
     const handleSearchChange = (value) => {
         setSearchQuery(value);
@@ -204,7 +212,7 @@ function UserDetailsPage() {
                     Delete
                 </button>
                 <button onClick={handleNewAdminUser}>New Admin User</button>
-                <button onClick={handleImportData}>Import Data</button>
+                {/* <button onClick={handleImportData}>Import Data</button> */}
                 <input
                     type="file"
                     id="fileInput"
@@ -213,74 +221,13 @@ function UserDetailsPage() {
                     onChange={handleFileChange}
                 />
                 </>}
-                <button onClick={handleExportData}>Export Data</button>
+                {/* <button onClick={handleExportData}>Export Data</button> */}
                 
             </div>
             <h2>User Details</h2>
-            {/* <div className="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search by name or mobile"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                />
-            </div> */}
-            {/* <table className="table-container">
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>Image</th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Mobile</th>
-                        <th>Email</th>
-                        <th>City</th>
-                        <th>Blood Group</th>
-                        <th>Area</th>
-                        <th>Gender</th>
-                        <th>DOB</th>
-                        <th>Occupation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((user) => (
-                        <tr key={user._id}>
-                            <td>
-                                <input
-                                    type="checkbox"
-                                    checked={selectedUsers.includes(user._id)}
-                                    onChange={() => handleCheckboxChange(user._id)}
-                                />
-                            </td>
-                            <td>
-                                <img
-                                    alt="User"
-                                    className="user-image"
-                                    src={`https://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem('token')}/${user.uniqueId}`}
-                                />
-                            </td>
-                            <td>{user.uniqueId}</td>
-                            <td>{user.name}</td>
-                            <td>{user.mobile}</td>
-                            <td>{user.email}</td>
-                            <td>{user.city}</td>
-                            <td>{user.bloodGroup}</td>
-                            <td>{user.area}</td>
-                            <td>{user.gender}</td>
-                            <td>{user.dob ? new Date(user.dob).toLocaleDateString() : ''}</td>
-                            <td>{user.occupation}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table> */}
-            <UsersTable users={users} selectedUsers={selectedUsers} onSelectionChange={handleSelectionChange} searchString={debouncedSearchQuery} onSearchChange={handleSearchChange}/>
-
-          
-          {/* <SimpleUsersTable
-            users={users}
-            selectedUsers={selectedUsers}
-            onSelectionChange={handleSelectionChange}
-          /> */}
+            <br></br>
+            {loading && <div className='loading-container-main'><Loading message="Loadign users..." /></div>}
+            <UsersTable users={users} selectedUsers={selectedUsers} onSelectionChange={handleSelectionChange} searchString={debouncedSearchQuery} onSearchChange={handleSearchChange} pageSize={pageSize} setPageSize={setPageSize}/>
             <Pagination 
                 totalPages={totalPages} 
                 currentPage={currentPage} 

@@ -122,7 +122,7 @@ export const SimpleUsersTable = ({ users, selectedUsers, onSelectionChange }) =>
                   <td>
                     <div className="user-avatar">
                       <img
-                        src={`http://localhost:5000/api/users/images/${localStorage.getItem("token")}/${user.uniqueId}`}
+                        src={`http://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem("token")}/${user.uniqueId}`}
                         alt={user.name}
                         onError={(e) => {
                           ;(e.target).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(

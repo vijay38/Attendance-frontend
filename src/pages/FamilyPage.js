@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/FamilyPage.css";
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'http://api.emmanuelministrieshyd.com';
 const FamilyPage = () => {
     const [families, setFamilies] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ const FamilyPage = () => {
                                     <tr key={family.head_of_family.uniqueId}>
                                         <td>{index + 1}</td>
                                         <td>
-                                            <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${family.head_of_family.uniqueId}`} />
+                                            <img alt="User" className="user-image" src={`http://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem('token')}/${family.head_of_family.uniqueId}`} />
                                         </td>
                                         <td>{family.head_of_family.name}</td>
                                         <td>{family.head_of_family.mobile}</td>

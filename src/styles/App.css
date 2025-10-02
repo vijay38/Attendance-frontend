@@ -1,55 +1,132 @@
-.App {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+.App {
+  background-color: #fafafa;
+}
+
+/* Navbar container */
 .nav-bar {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: #f8f8f8;
-    padding: 10px 20px;
-    border: 1px solid #ddd;
-}
-.nav-links {
   display: flex;
-  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #fdfbfb, #ebedee);
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
 }
+
+/* Desktop nav (links + button) */
+.desktop-nav {
+  display: flex;
+  flex: 1;
+}
+
+/* Common style for nav items */
+.nav-item {
+  flex: 1; /* Equal width distribution */
+  text-align: center;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap; /* Prevent text wrap */
+  border-radius: 0; /* flat look */
+  border-right: 1px solid #ddd;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Last item shouldn't have border */
+.nav-item:last-child {
+  border-right: none;
+}
+
+/* Nav links */
 .nav-link {
-  background-color: #007bff;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-right: 10px;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease;
-    flex: 1;
+  color: #2563eb;
+  background: transparent;
 }
 
 .nav-link:hover {
-  background-color: #0056b3;
+  background: #f0f4ff;
+  color: #1e40af;
 }
 
+/* Logout button styled like a theme button */
 .logout-button {
-  background-color: #ff4d4d;
+  background: transparent;
+  color: #374151; /* Slate gray */
+  font-weight: 600;
   border: none;
-  color: white;
-  padding: 10px 15px;
-  font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  flex: 0 0 25%; /* Takes 25% of the space */
 }
 
 .logout-button:hover {
-    background-color: #e60000;
+  background: #f3f4f6;
+  color: #111827;
 }
 
-.logout-button:focus {
-    outline: none;
+/* Mobile nav */
+.mobile-nav {
+  display: none;
+  position: relative;
+}
+
+.hamburger {
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.hamburger:hover {
+  background: #f3f4f6;
+}
+
+/* Mobile dropdown */
+.mobile-menu {
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  min-width: 200px;
+  z-index: 100;
+}
+
+.mobile-menu .nav-link,
+.mobile-menu .logout-button {
+  padding: 12px;
+  font-size: 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-menu .nav-link:last-child,
+.mobile-menu .logout-button:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-nav {
+    display: block;
+    margin-left: auto;
+  }
 }

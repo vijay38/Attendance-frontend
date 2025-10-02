@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/LoginPage.css';
 import { useAuth } from '../AuthContext';
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'http://api.emmanuelministrieshyd.com';
 function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import "./UsersTable.css" 
 import { Link } from 'react-router-dom';
 
-export const UsersTable = ({ users, selectedUsers, onSelectionChange,onSearchChange,searchString }) => {
+export const UsersTable = ({ users, selectedUsers, onSelectionChange,onSearchChange,searchString, setPageSize,pageSize }) => {
   const [filteredUsers, setFilteredUsers] = useState(users)
   const [searchQuery, setSearchQuery] = useState("")
   const [columnFilters, setColumnFilters] = useState({})
@@ -121,7 +121,23 @@ export const UsersTable = ({ users, selectedUsers, onSelectionChange,onSearchCha
             </button>
           )}
         </div>
-
+        <div className="pagination-container-drop">
+          <label htmlFor="pageSize" className="pagination-label">
+            Rows per page:
+          </label>
+          <select
+            id="pageSize"
+            className="pagination-select"
+            value={pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
+          >
+            {[5, 10, 20, 30, 40, 50].map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="filter-info">
           {Object.keys(columnFilters).length > 0 && (
             <button className="clear-filters-button" onClick={clearAllFilters}>
