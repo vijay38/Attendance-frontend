@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import "./UsersTable.css" 
 import { Link } from 'react-router-dom';
 
-export const UsersTable = ({ users, selectedUsers, onSelectionChange }) => {
+export const UsersTable = ({ users, selectedUsers, onSelectionChange,onSearchChange,searchString }) => {
   const [filteredUsers, setFilteredUsers] = useState(users)
   const [searchQuery, setSearchQuery] = useState("")
   const [columnFilters, setColumnFilters] = useState({})
@@ -33,19 +33,19 @@ export const UsersTable = ({ users, selectedUsers, onSelectionChange }) => {
     })
 
     // Apply global search
-    if (searchQuery) {
-      result = result.filter((user) => {
-        return Object.entries(user).some(([key, value]) => {
-          if (typeof value === "string") {
-            return value.toLowerCase().includes(searchQuery.toLowerCase())
-          }
-          return false
-        })
-      })
-    }
+    // if (searchQuery) {
+    //   result = result.filter((user) => {
+    //     return Object.entries(user).some(([key, value]) => {
+    //       if (typeof value === "string") {
+    //         return value.toLowerCase().includes(searchQuery.toLowerCase())
+    //       }
+    //       return false
+    //     })
+    //   })
+    // }
 
     setFilteredUsers(result)
-  }, [users, searchQuery, columnFilters])
+  }, [users, columnFilters])
 
   const handleSelectAll = () => {
     if (selectedUsers.length === filteredUsers.length) {
@@ -76,7 +76,7 @@ export const UsersTable = ({ users, selectedUsers, onSelectionChange }) => {
   }
 
   const clearAllFilters = () => {
-    setSearchQuery("")
+    onSearchChange("")
     setColumnFilters({})
   }
 
@@ -111,12 +111,12 @@ export const UsersTable = ({ users, selectedUsers, onSelectionChange }) => {
           <input
             type="text"
             placeholder="Search all columns..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchString}
+            onChange={(e) => onSearchChange(e.target.value)}
             className="search-input"
           />
-          {searchQuery && (
-            <button className="clear-button" onClick={() => setSearchQuery("")} aria-label="Clear search">
+          {searchString && (
+            <button className="clear-button" onClick={() => onSearchChange("")} aria-label="Clear search">
               ✕
             </button>
           )}
@@ -246,7 +246,7 @@ export const UsersTable = ({ users, selectedUsers, onSelectionChange }) => {
                   <td>
                     <div className="user-avatar">
                       <img
-                        src={`http://localhost:5000/api/users/images/${localStorage.getItem("token")}/${user.uniqueId}`}
+                        src={`https://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem("token")}/${user.uniqueId}`}
                         alt={user.name}
                         onError={(e) => {
                           ;(e.target).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(

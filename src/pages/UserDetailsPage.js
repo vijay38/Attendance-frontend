@@ -10,7 +10,7 @@ import { useAuth } from '../AuthContext';
 import UsersTable from "../components/UsersTable";
 import SimpleUsersTable from '../components/SimpleUsersTable';
 import '../styles/UserDetailsPage.css';
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'https://api.emmanuelministrieshyd.com';
 const token = localStorage.getItem('token');
 
 function UserDetailsPage() {
@@ -23,7 +23,7 @@ function UserDetailsPage() {
     const [editingUser, setEditingUser] = useState(null);
     const [isAdminDialogOpen,setIsAdminDialogOpen] = useState(false);
     const {isSuperAdmin} = useAuth();
-    const debouncedSearchQuery = useDebounce(searchQuery, 500);
+    const debouncedSearchQuery = useDebounce(searchQuery, 100);
     const userId = localStorage.getItem('userId');
     useEffect(() => {
         async function fetchData() {
@@ -48,8 +48,8 @@ function UserDetailsPage() {
         fetchData();
     }, [currentPage, debouncedSearchQuery]);
 
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
+    const handleSearchChange = (value) => {
+        setSearchQuery(value);
         setCurrentPage(1);  // Reset to first page when search query changes
     };
 
@@ -256,7 +256,7 @@ function UserDetailsPage() {
                                 <img
                                     alt="User"
                                     className="user-image"
-                                    src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${user.uniqueId}`}
+                                    src={`https://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem('token')}/${user.uniqueId}`}
                                 />
                             </td>
                             <td>{user.uniqueId}</td>
@@ -273,7 +273,7 @@ function UserDetailsPage() {
                     ))}
                 </tbody>
             </table> */}
-            <UsersTable users={users} selectedUsers={selectedUsers} onSelectionChange={handleSelectionChange} />
+            <UsersTable users={users} selectedUsers={selectedUsers} onSelectionChange={handleSelectionChange} searchString={debouncedSearchQuery} onSearchChange={handleSearchChange}/>
 
           
           {/* <SimpleUsersTable

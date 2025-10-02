@@ -7,7 +7,7 @@ import { saveAs } from 'file-saver';
 import useDebounce from '../utils/debounce';
 import '../styles/AttendancePage.css';
 import Pagination from '../components/Pagination';
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'https://api.emmanuelministrieshyd.com';
 // Sample image URL
 // const defaultImageUrl = 'https://i.pinimg.com/originals/ed/18/91/ed189191dc22169f0e6786a85f068616.jpg';
 
@@ -30,7 +30,8 @@ function AttendancePage() {
                         date: formattedDate,
                         page: currentPage,
                         limit: 10,
-                        searchQuery: debouncedSearchQuery  
+                        searchQuery: debouncedSearchQuery,
+                        filter: "absent"
                     },
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -106,7 +107,7 @@ function AttendancePage() {
                     {attendees.map((attendee, ind) => (
                         <tr key={attendee.EmployeeId}>
                             <td>
-                                <img alt="User" className="user-image" src={`http://localhost:5000/api/users/images/${localStorage.getItem('token')}/${attendee.EmployeeCode}`}></img>
+                                <img alt="User" className="user-image" src={`https://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem('token')}/${attendee.EmployeeCode}`}></img>
                             </td>
                             <td>{attendee.EmployeeCode}</td>
                             <td>{attendee.EmployeeName}</td>
