@@ -265,7 +265,7 @@ export const UsersTable = ({ users, selectedUsers, onSelectionChange,onSearchCha
                         src={`https://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem("token")}/${user.uniqueId}`}
                         alt={user.name}
                         onError={(e) => {
-                          ;(e.target).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          (e.target).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                             user.name,
                           )}&background=random`
                         }}
