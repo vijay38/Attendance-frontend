@@ -75,7 +75,6 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             name="mobile"
                             value={formData.mobile}
                             onChange={handleChange}
-                            required
                         />
                     </div>
                     <div>
@@ -94,7 +93,6 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             name="bloodGroup"
                             value={formData.bloodGroup}
                             onChange={handleChange}
-                            required
                         />
                     </div>
                     <div>
@@ -115,7 +113,6 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             name="area"
                             value={formData.area}
                             onChange={handleChange}
-                            required
                         />
                     </div>
                     <div>
@@ -125,7 +122,6 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             name="city"
                             value={formData.city}
                             onChange={handleChange}
-                            required
                         />
                     </div>
                     <div>
@@ -163,7 +159,7 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             checked={formData.isFaceDetected}
                             onChange={handleChange}
                         />
-                        Face Detected
+                        <span style={{marginLeft: '8px'}}>Face Detected</span>
                         </label>
                     </div>
                     <button type="submit">Submit</button>
