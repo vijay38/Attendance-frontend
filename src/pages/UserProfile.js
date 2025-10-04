@@ -110,6 +110,10 @@ const UserProfile = () => {
               <span className="label">Occupation:</span>
               <span className="value">{user.occupation}</span>
             </div>
+            <div className="info-item">
+              <span className="label">Head of Family:</span>
+              <span className="value">{user.HOFMobile}</span>
+            </div>
           </div>
         </div>
 
