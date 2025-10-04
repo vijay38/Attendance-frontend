@@ -13,12 +13,17 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
         HOFMobile: user ? user.HOFMobile : '',
         gender: user && user.gender ? user.gender : '',
         dob: user && user.dob ? user.dob : '',
-        occupation: user && user.occupation ? user.occupation : ''
+        occupation: user && user.occupation ? user.occupation : '',
+        isFaceDetected: user ? user.isFaceDetected : false
     });
         
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, type, value, checked } = e.target;
+    setFormData((prev) => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+    }));
     };
 
     const handleSubmit = (e) => {
@@ -41,6 +46,7 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                 dob: user && user.dob ? user.dob.substring(0, 10) : '',
                 occupation: user ? user.occupation : '',
                 HOFMobile: user ? user.HOFMobile : '',
+                isFaceDetected: user ? user.isFaceDetected : false
             });
         }
     }, [isOpen, user]);
@@ -98,6 +104,7 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                             name="uniqueId"
                             value={formData.uniqueId}
                             onChange={handleChange}
+                            disabled={user ? true : false}
                             required
                         />
                     </div>
@@ -147,6 +154,17 @@ function Modal({ isOpen, onClose, onSubmit, user }) {
                     <div>
                         <label>Occupation</label>
                         <input type="text" name="occupation" value={formData.occupation} onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>
+                        <input
+                            type="checkbox"
+                            name="isFaceDetected"
+                            checked={formData.isFaceDetected}
+                            onChange={handleChange}
+                        />
+                        Face Detected
+                        </label>
                     </div>
                     <button type="submit">Submit</button>
                 </form>
