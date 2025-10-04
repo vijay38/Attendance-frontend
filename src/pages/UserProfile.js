@@ -15,7 +15,7 @@ const UserProfile = () => {
         setLoading(true)
         const token = localStorage.getItem('token');
         // Replace with your actual API endpoint
-        const response = await fetch(`http://api.emmanuelministrieshyd.com/api/users/user/${userId}`,{
+        const response = await fetch(`https://api.emmanuelministrieshyd.com/api/users/user/${userId}`,{
                 headers: {
                     Authorization: `Bearer ${token}`,
                     userId:userId
@@ -65,7 +65,7 @@ const UserProfile = () => {
           <div className="profile-header">
             <div className="user-avatar">
               <img
-                src={`http://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem("token")}/${user.uniqueId}`}
+                src={`https://api.emmanuelministrieshyd.com/api/users/images/${localStorage.getItem("token")}/${user.uniqueId}`}
                 alt={user.name}
                 onError={(e) => {
                   e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`
@@ -122,7 +122,7 @@ const UserProfile = () => {
           <h3>Family Photo</h3>
           <div className="family-picture">
             <img
-              src={`http://api.emmanuelministrieshyd.com/api/users/familyImages/${localStorage.getItem("token")}/${user.HOFMobile}`}
+              src={`https://api.emmanuelministrieshyd.com/api/users/familyImages/${localStorage.getItem("token")}/${user.HOFMobile}`}
               alt="Family"
               onError={(e) => {
                 e.target.src = `https://ui-avatars.com/api/?name=Family&background=random`

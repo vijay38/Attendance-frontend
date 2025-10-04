@@ -4,7 +4,7 @@ import Papa from "papaparse";
 import { saveAs } from "file-saver";
 import "../styles/FamilyPage.css";
 
-const BASE_URL = 'http://api.emmanuelministrieshyd.com';
+const BASE_URL = 'https://api.emmanuelministrieshyd.com';
 
 const FamilyPage = () => {
     const [families, setFamilies] = useState([]);

@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 // Define your API base URL
-const BASE_URL = 'http://api.emmanuelministrieshyd.com';
+const BASE_URL = 'https://api.emmanuelministrieshyd.com';
 
 function PrivateRoute({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(null); // null to handle loading state
